@@ -1,0 +1,48 @@
+description 'My wittle project, baked with wuv.'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.3.1.RELEASE")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+
+configurations {
+    providedRuntime
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven {
+        url 'http://dl.bintray.com/cworks/maven'
+    }
+}
+
+dependencies {
+    compile('javax.inject:javax.inject:1')
+    compile('joda-time:joda-time:2.8.2')
+    compile('com.fasterxml.jackson.core:jackson-core:2.6.4')
+    compile('com.fasterxml.jackson.core:jackson-annotations:2.6.4')
+    compile('com.fasterxml.jackson.core:jackson-databind:2.6.4')
+    compile('com.fasterxml.jackson.datatype:jackson-datatype-joda:2.6.4')
+    compile('org.springframework.boot:spring-boot-starter-data-mongodb')
+    testCompile('junit:junit:4.12')
+}
+
+task copyLibs(type: Copy) {
+    from configurations.compile
+    into '.libs'
+}
+
+task wrapper(type: Wrapper, description: 'Generates the gradle wrapper.') {
+    gradleVersion = '2.9'
+}
+
